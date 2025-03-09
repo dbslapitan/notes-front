@@ -8,6 +8,7 @@ import { INote } from "@/models/note";
 import CreateNote from "./create-note";
 import { MouseEvent, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Tags from "./tags";
 
 export default function MobileLayout({notes}: {notes: INote[]}){
 
@@ -18,25 +19,36 @@ export default function MobileLayout({notes}: {notes: INote[]}){
 
   const currentParam = searchParams.has("search") && "search" || searchParams.has("tag") && "tag" || searchParams.has("archived") && "archived" || "home";
 
+  const value = useRef(currentParam);
+
   const tabs = [{ value: "home", class: `before:[mask-image:url("/icons/icon-home.svg")]` }, { value: "search", class: `before:[mask-image:url("/icons/icon-search.svg")]` }, { value: "archived", class: `before:[mask-image:url("/icons/icon-archive.svg")]` }, { value: "tags", class: `before:[mask-image:url("/icons/icon-tag.svg")]` }, { value: "settings", class: `before:[mask-image:url("/icons/icon-settings.svg")]` }];
 
   const onTabClickHander = (event: MouseEvent, tab: string) => {
     if(tab === "home"){
+      value.current = "home";
       router.push(`${path}`);
     }
     else if(tab === "search"){
+      value.current = "search";
       router.push(`${path}?search=`);
     }
     else if(tab === "archived"){
+      value.current = "archived";
       router.push(`${path}?archived`);
     }
+    else if(tab === "tags"){
+      value.current = "tags";
+      router.push(`${path}`);
+    }
   }
+
+  console.log(currentParam, value.current)
 
   return(
     <>
       <Header />
       <main className="h-full">
-        <Tabs value={currentParam} className="h-full gap-0">
+        <Tabs value={value.current} className="h-full gap-0">
           <TabsList ref={tabRef} className="order-1 w-full bg-neutral-0 px-4 py-3 h-fit rounded-none shadow-sm dark:shadow-d-sm border-t-neutral-200 border-t md:px-0 md:py-3 dark:bg-neutral-950 dark:border-t-neutral-800">
             {
               tabs.map(tab => {
@@ -62,7 +74,10 @@ export default function MobileLayout({notes}: {notes: INote[]}){
             <Notes notes={notes} bottomRef={tabRef} />
             <CreateNote />
           </TabsContent>
-          <TabsContent value="tags" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>Change your password here.</TabsContent>
+          <TabsContent value="tags" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>
+            <Tags />
+            <CreateNote />
+          </TabsContent>
           <TabsContent value="settings" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>Change your password here.</TabsContent>
         </Tabs>
       </main>

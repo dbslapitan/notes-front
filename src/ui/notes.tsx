@@ -16,9 +16,9 @@ export default function Notes({notes, bottomRef}: {notes: INote[], bottomRef: Re
   const initialLoadRef = useRef(false);
   const searchParams = useSearchParams();
 
-  console.log("search:", searchParams.has("search"));
-  console.log("tag:", searchParams.has("tag"));
-  console.log("archived:", searchParams.has("archived"));
+  // console.log("search:", searchParams.has("search"));
+  // console.log("tag:", searchParams.has("tag"));
+  // console.log("archived:", searchParams.has("archived"));
 
   const currentParam = searchParams.has("search") && "search" || searchParams.has("tag") && "tag" || searchParams.has("archived") && "archived" || "home";
 
