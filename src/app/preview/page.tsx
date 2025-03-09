@@ -8,7 +8,7 @@ export default async function Page() {
 
   return (
     <>
-      <MobileLayout notes={data.notes}/>
+      <MobileLayout notes={data.notes} tags={data.tags}/>
     </>
   );
 }

@@ -10,7 +10,7 @@ import { MouseEvent, useRef } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Tags from "./tags";
 
-export default function MobileLayout({notes}: {notes: INote[]}){
+export default function MobileLayout({notes, tags}: {notes: INote[], tags: string[]}){
 
   const tabRef = useRef<null | HTMLDivElement>(null);
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function MobileLayout({notes}: {notes: INote[]}){
     }
     else if(tab === "tags"){
       value.current = "tags";
-      router.push(`${path}`);
+      router.push(`${path}?tag=`);
     }
   }
 
@@ -75,7 +75,7 @@ export default function MobileLayout({notes}: {notes: INote[]}){
             <CreateNote />
           </TabsContent>
           <TabsContent value="tags" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>
-            <Tags />
+            <Tags tags={tags}/>
             <CreateNote />
           </TabsContent>
           <TabsContent value="settings" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>Change your password here.</TabsContent>

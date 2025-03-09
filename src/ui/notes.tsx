@@ -60,8 +60,6 @@ export default function Notes({notes, bottomRef}: {notes: INote[], bottomRef: Re
     }
   });
 
-  console.log(filteredNotes.current)
-
   return(
     <>
       <h1 className={`${text["preset-1"]}`}>{isSearch && "Search" || "Notes"}</h1>
