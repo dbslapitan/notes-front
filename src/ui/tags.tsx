@@ -4,8 +4,6 @@ import tagSrc from "../../public/icons/icon-tag.svg"
 
 export default function Tags({ tags }: { tags: string[] }) {
 
-  console.log(tags);
-
   return (
     <section>
       <h2 className={`${text["preset-1"]}`}>Tags</h2>

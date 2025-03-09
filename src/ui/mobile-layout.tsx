@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 import Notes from "./notes";
 import { INote } from "@/models/note";
 import CreateNote from "./create-note";
-import { MouseEvent, useRef } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Tags from "./tags";
 
@@ -19,36 +19,37 @@ export default function MobileLayout({notes, tags}: {notes: INote[], tags: strin
 
   const currentParam = searchParams.has("search") && "search" || searchParams.has("tag") && "tag" || searchParams.has("archived") && "archived" || "home";
 
-  const value = useRef(currentParam);
+  const [value, setValue] = useState(currentParam);
 
   const tabs = [{ value: "home", class: `before:[mask-image:url("/icons/icon-home.svg")]` }, { value: "search", class: `before:[mask-image:url("/icons/icon-search.svg")]` }, { value: "archived", class: `before:[mask-image:url("/icons/icon-archive.svg")]` }, { value: "tags", class: `before:[mask-image:url("/icons/icon-tag.svg")]` }, { value: "settings", class: `before:[mask-image:url("/icons/icon-settings.svg")]` }];
 
   const onTabClickHander = (event: MouseEvent, tab: string) => {
     if(tab === "home"){
-      value.current = "home";
+      setValue("home")
       router.push(`${path}`);
     }
     else if(tab === "search"){
-      value.current = "search";
+      setValue("search")
       router.push(`${path}?search=`);
     }
     else if(tab === "archived"){
-      value.current = "archived";
+      setValue("archived")
       router.push(`${path}?archived`);
     }
     else if(tab === "tags"){
-      value.current = "tags";
+      setValue("tags")
       router.push(`${path}?tag=`);
     }
+    else if(tab == "settings"){
+      setValue("settings")
+    }
   }
-
-  console.log(currentParam, value.current)
 
   return(
     <>
       <Header />
       <main className="h-full">
-        <Tabs value={value.current} className="h-full gap-0">
+        <Tabs value={value} className="h-full gap-0">
           <TabsList ref={tabRef} className="order-1 w-full bg-neutral-0 px-4 py-3 h-fit rounded-none shadow-sm dark:shadow-d-sm border-t-neutral-200 border-t md:px-0 md:py-3 dark:bg-neutral-950 dark:border-t-neutral-800">
             {
               tabs.map(tab => {
@@ -78,7 +79,9 @@ export default function MobileLayout({notes, tags}: {notes: INote[], tags: strin
             <Tags tags={tags}/>
             <CreateNote />
           </TabsContent>
-          <TabsContent value="settings" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>Change your password here.</TabsContent>
+          <TabsContent value="settings" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>
+            
+          </TabsContent>
         </Tabs>
       </main>
     </>
