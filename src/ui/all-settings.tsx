@@ -7,7 +7,7 @@ import lock from "../../public/icons/icon-lock.svg";
 import logout from "../../public/icons/icon-logout.svg";
 import Image from "next/image";
 import { Separator } from "./separator";
-import { Dispatch, useState } from "react";
+import { Dispatch } from "react";
 
 export default function AllSettings({setValue}: {setValue: Dispatch<string>}) {
 

@@ -6,20 +6,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 import Notes from "./notes";
 import { INote } from "@/models/note";
 import CreateNote from "./create-note";
-import { MouseEvent, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import Tags from "./tags";
 import MobileSettings from "./mobile-settings";
 import Link from "next/link";
 
-export default function MobileLayout({notes, tags}: {notes: INote[], tags: string[]}){
+export default function MobileLayout({notes=[], tags=[], fixed=""}: {notes?: INote[], tags?: string[], fixed?: string}){
 
   const tabRef = useRef<null | HTMLDivElement>(null);
   const searchParams = useSearchParams();
 
   const currentParam = searchParams.has("search") && "search" || searchParams.has("tag") && "tag" || searchParams.has("archived") && "archived" || "home";
 
-  const value = currentParam === "tag" ? "tags" : currentParam;
+  const value = fixed ? fixed : currentParam === "tag" ? "tags" : currentParam;
 
   const tabs = [
     { 

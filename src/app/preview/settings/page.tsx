@@ -1,7 +1,9 @@
+import MobileLayout from "@/ui/mobile-layout";
+
 export default async function Page(){
   return(
-    <>
-    <h1>Settings</h1>
+      <>
+        <MobileLayout fixed="settings"/>
     </>
   );
 }
