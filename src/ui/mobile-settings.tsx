@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList } from "./tabs";
 import AllSettings from "./all-settings";
+import ColorSettings from "./color-settings";
 
 export default function MobileSettings(){
 
@@ -16,7 +17,7 @@ export default function MobileSettings(){
             <AllSettings setValue={setValue}/>
         </TabsContent>
         <TabsContent value="color">
-            Color
+            <ColorSettings setValue={setValue}/>
         </TabsContent>
         <TabsContent value="font">
           Font
