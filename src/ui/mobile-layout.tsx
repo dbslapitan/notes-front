@@ -81,7 +81,7 @@ export default function MobileLayout({notes=[], tags=[], fixed=""}: {notes?: INo
             <CreateNote />
           </TabsContent>
           <TabsContent value="tags" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>
-            <Tags tags={tags}/>
+            <Tags tags={tags} bottomRef={tabRef}/>
             <CreateNote />
           </TabsContent>
           <TabsContent value="settings" className={`grow relative bg-neutral-0 rounded-t-[8px] dark:bg-neutral-950 pt-5 px-4`}>
