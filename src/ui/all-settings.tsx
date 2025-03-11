@@ -9,9 +9,10 @@ import Image from "next/image";
 import { Separator } from "./separator";
 import { Dispatch } from "react";
 
-export default function AllSettings({setValue}: {setValue: Dispatch<string>}) {
+export default function AllSettings({setValue = () => {}}: {setValue?: Dispatch<string>}) {
 
   const handleSettingClick = (tab: string) => {
+    sessionStorage.setItem("settings", tab);
     setValue(tab);
   }
 

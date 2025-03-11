@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList } from "./tabs";
 import AllSettings from "./all-settings";
 import ColorSettings from "./color-settings";
@@ -8,6 +8,13 @@ import ColorSettings from "./color-settings";
 export default function MobileSettings(){
 
   const [value, setValue] = useState("all");
+
+  useEffect(() => {
+    const settings = sessionStorage.getItem("settings");
+    if(settings === "color" || settings === "font" && value !== settings){
+      setValue(settings);
+    }
+  }, [value]);
 
   return(
     <>

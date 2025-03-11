@@ -20,7 +20,7 @@ export default function ColorSettings({ setValue }: { setValue: Dispatch<string>
 
   return (
     <>
-      <button onClick={() => setValue("all")} className={`${text["preset-4"]} flex items-center`}>
+      <button onClick={() => {setValue("all"); sessionStorage.setItem("settings", "all")}} className={`${text["preset-4"]} flex items-center`}>
         <Image src={carret} alt="" />
         <span className="relative -top-0.25">Settings</span>
       </button>
