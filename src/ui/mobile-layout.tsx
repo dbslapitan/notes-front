@@ -6,16 +6,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 import Notes from "./notes";
 import { INote } from "@/models/note";
 import CreateNote from "./create-note";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Tags from "./tags";
 import MobileSettings from "./mobile-settings";
 import Link from "next/link";
+import { FontContext } from "./providers";
+import { fonts } from "@/lib/fonts";
 
 export default function MobileLayout({notes=[], tags=[], fixed=""}: {notes?: INote[], tags?: string[], fixed?: string}){
 
   const tabRef = useRef<null | HTMLDivElement>(null);
   const searchParams = useSearchParams();
+  const {font} = useContext(FontContext);
+
+  const selectedFont = fonts[font as "sans" | "serif" | "mono"];
 
   const currentParam = searchParams.has("search") && "search" || searchParams.has("tag") && "tag" || searchParams.has("archived") && "archived" || "home";
 
@@ -51,7 +56,7 @@ export default function MobileLayout({notes=[], tags=[], fixed=""}: {notes?: INo
   return(
     <>
       <Header />
-      <main className="h-full">
+      <main className={`${selectedFont} h-full`}>
         <Tabs value={value} className="h-full gap-0">
           <TabsList ref={tabRef} className="order-1 w-full bg-neutral-0 px-4 py-3 h-fit rounded-none shadow-sm dark:shadow-d-sm border-t-neutral-200 border-t md:px-0 md:py-3 dark:bg-neutral-950 dark:border-t-neutral-800">
             {

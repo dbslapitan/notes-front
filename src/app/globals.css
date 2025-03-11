@@ -35,6 +35,10 @@
   --shadow-lg: 0px 8px 12px 0px rgba(240, 240, 240, 0.60);
 
   --spacing-clamp1: clamp(2rem, 0.927rem + 4.58vw, 3.125rem);
+
+  --font-sans: "Inter", "sans-serif";
+  --font-serif: "Noto Serif", "serif";
+  --font-mono: "Source Code Pro", "sans-serif";
 }
 
 :root {
@@ -146,11 +150,6 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
-
-/* .home{
-  mask-image: url("../../public/icons/icon-home.svg");
-  background-color: black;
-} */
 
 @layer base {
   * {

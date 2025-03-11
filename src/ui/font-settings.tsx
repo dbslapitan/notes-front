@@ -1,6 +1,6 @@
 import { text } from "@/lib/css-presets";
 import Image from "next/image";
-import { Dispatch, useState } from "react";
+import { Dispatch, MouseEvent, useContext, useRef, useState } from "react";
 import carret from "../../public/icons/icon-arrow-left.svg";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Label } from "./label";
@@ -8,13 +8,20 @@ import sans from "../../public/icons/icon-font-sans-serif.svg";
 import serif from "../../public/icons/icon-font-serif.svg";
 import mono from "../../public/icons/icon-font-monospace.svg";
 import { Button } from "./button";
+import { FontContext } from "./providers";
 
 export default function FontSettings({ setValue }: { setValue: Dispatch<string> }) {
 
-  const [font, setFont] = useState(null);
+  const {font, setFont} = useContext(FontContext);
+  const fontRef = useRef(font);
+
+  const handleValueChange = (value: string) => {
+    fontRef.current = value;
+  }
 
   const handleSave = () => {
-    
+    localStorage.setItem("font", fontRef.current);
+    setFont(fontRef.current);
   }
 
   return (
@@ -25,7 +32,7 @@ export default function FontSettings({ setValue }: { setValue: Dispatch<string> 
       </button>
       <h2 className={`${text["preset-1"]} mt-3`}>Font Theme</h2>
       <p className={`${text["preset-5"]} mt-2`}>Choose your font theme:</p>
-      <RadioGroup className="mt-4.25" asChild>
+      <RadioGroup defaultValue={font} className="mt-4.25" asChild onValueChange={handleValueChange}>
         <ul>
           <li className="flex p-4 rounded-[0.75rem] border items-center gap-4 has-data-[state=checked]:bg-neutral-100">
             <Label htmlFor="sans" className={`flex grow items-center`}>
