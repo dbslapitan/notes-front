@@ -60,7 +60,7 @@ export default function ColorSettings({ setValue }: { setValue: Dispatch<string>
               <Image src={system} alt="" className="bg-neutral-0 p-2 h-fit w-fit border rounded-[0.75rem] border-neutral-200" />
               <p className={`ml-4 flex flex-col ${text["preset-4"]} gap-1.5`}>
                 System
-                <span className={`${text["preset-6"]}`}>Select a sleek and modern dark theme</span>
+                <span className={`${text["preset-6"]}`}>{`Adapts to your device's theme`}</span>
               </p>
             </Label>
             <RadioGroupItem value="system" id="system" className="ml-auto bg-neutral-200 data-[state=checked]:bg-blue-500 data-[state=checked]:[&_circle]:[fill:white] data-[state=unchecked]:bg-neutral-0" />
