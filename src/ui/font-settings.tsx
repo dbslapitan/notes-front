@@ -1,6 +1,6 @@
 import { text } from "@/lib/css-presets";
 import Image from "next/image";
-import { Dispatch, MouseEvent, useContext, useRef, useState } from "react";
+import { Dispatch, useContext, useRef } from "react";
 import carret from "../../public/icons/icon-arrow-left.svg";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Label } from "./label";

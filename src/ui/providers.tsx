@@ -1,10 +1,9 @@
 "use client";
 
-import { inter } from "@/lib/fonts";
 import { ThemeProvider } from "next-themes";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 
-export const FontContext = createContext({font: "sans", setFont: (value: string) => {}});
+export const FontContext = createContext<{font: string, setFont: Dispatch<SetStateAction<string>>}>({font: "sans", setFont: () => {}});
 
 export default function Providers({ children }: { children: ReactNode }) {
 
@@ -13,7 +12,6 @@ export default function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
     const lsFont = localStorage.getItem("font");
     const currentFont = lsFont === "sans" && "sans" || lsFont === "serif" && "serif" || lsFont === "mono" && "mono" || "sans";
-    console.log(currentFont, font);
     if(currentFont !== font){
       localStorage.setItem("font", currentFont);
       setFont(currentFont);
