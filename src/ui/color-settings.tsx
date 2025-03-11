@@ -2,25 +2,32 @@
 
 import { text } from "@/lib/css-presets";
 import Image from "next/image";
-import carret from "../../public/icons/icon-arrow-left.svg"
-import { Dispatch } from "react";
+import carret from "../../public/icons/icon-arrow-left.svg";
+import { Dispatch, useRef } from "react";
 import { useTheme } from "next-themes";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Label } from "./label";
 import sun from "../../public/icons/icon-sun.svg";
 import moon from "../../public/icons/icon-moon.svg";
 import system from "../../public/icons/icon-system-theme.svg";
+import { Button } from "./button";
 
 export default function ColorSettings({ setValue }: { setValue: Dispatch<string> }) {
 
   const { resolvedTheme, setTheme } = useTheme();
+  const themeRef = useRef(resolvedTheme);
+
   const handleValueChange = (value: string) => {
-    setTheme(value);
+    themeRef.current = value;
+  }
+
+  const handleSave = () => {
+    setTheme(themeRef.current as string);
   }
 
   return (
     <>
-      <button onClick={() => {setValue("all"); sessionStorage.setItem("settings", "all")}} className={`${text["preset-4"]} flex items-center`}>
+      <button onClick={() => { setValue("all"); sessionStorage.setItem("settings", "all") }} className={`${text["preset-4"]} flex items-center`}>
         <Image src={carret} alt="" />
         <span className="relative -top-0.25">Settings</span>
       </button>
@@ -60,6 +67,11 @@ export default function ColorSettings({ setValue }: { setValue: Dispatch<string>
           </li>
         </ul>
       </RadioGroup>
+      <div className="mt-8 text-right">
+        <Button className={`${text["preset-4"]} bg-blue-500 text-neutral-0`} onClick={handleSave}>
+          Apply Changes
+        </Button>
+      </div>
     </>
   );
 }
