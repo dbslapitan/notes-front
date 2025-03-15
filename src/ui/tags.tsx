@@ -5,6 +5,7 @@ import Image from "next/image";
 import tagSrc from "../../public/icons/icon-tag.svg"
 import { ScrollArea } from "./scroll-area";
 import { RefObject, useEffect, useRef } from "react";
+import Link from "next/link";
 
 export default function Tags({ tags, bottomRef }: { tags: string[], bottomRef: RefObject<null | HTMLDivElement> }) {
 
@@ -41,10 +42,10 @@ export default function Tags({ tags, bottomRef }: { tags: string[], bottomRef: R
             tags.map(tag => {
               return (
                 <li key={tag}>
-                  <button className="w-full flex py-2.5 border-b gap-2">
+                  <Link href={`#`} className="w-full flex py-2.5 border-b gap-2">
                     <Image src={tagSrc} alt="" />
                     {tag}
-                  </button>
+                  </Link>
                 </li>
               );
             })
