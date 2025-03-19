@@ -14,9 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html className="h-full" lang="en">
-      <body className="h-full">
+      <body className="flex h-full bg-neutral-100">
         <Header />
         {children}
+        
       </body>
     </html>
   );

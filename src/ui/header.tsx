@@ -4,7 +4,7 @@ import light from "../../public/icons/logo-light.svg";
 
 export default function Header(){
   return(
-    <header>
+    <header className="py-3.25 px-4">
       <Link href={`/`}>
         <Image src={light} alt="" priority/>
       </Link>
