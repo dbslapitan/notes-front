@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "@/ui/header";
 
 export const metadata: Metadata = {
   title: "Notes",
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html className="h-full" lang="en">
       <body className="h-full">
+        <Header />
         {children}
       </body>
     </html>
