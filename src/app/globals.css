@@ -24,6 +24,9 @@
   --color-red-500: #FB3748;
   --color-red-100: #FFD5D8;
 
+  --shadow-sm: 0px 4px 6px 0px rgba(240, 240, 240, 0.60);
+  --shadow-lg: 0px 8px 12px 0px rgba(240, 240, 240, 0.60);
+
 }
 
 :root {
