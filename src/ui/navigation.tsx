@@ -9,34 +9,34 @@ export default function Navigation({selected = null}: {selected: string | null})
   return(
     <nav className="shadow-sm py-3 px-4 border-t border-t-neutral-200 bg-neutral-0">
       <ul className="flex">
-        <li className="grow">
-          <Link className={`flex rounded-sm justify-center py-1 ${selected === "home" ? "bg-blue-50 text-blue-500" : "text-neutral-950"}`} href={`/preview`}>
+        <li className={`grow rounded-sm ${selected === "home" ? "bg-blue-50" : ""}`}>
+          <Link className={`flex flex-col justify-center items-center py-1 ${selected === "home" ? "text-blue-500" : "text-neutral-950"}`} href={`/preview`}>
             <HomeSVG />
-            <span className="hidden">Home</span>
+            <span className="hidden md:block">Home</span>
           </Link>
         </li>
-        <li className="grow">
-          <Link className={`flex rounded-sm justify-center py-1 ${selected === "search" ? "bg-blue-50 text-blue-500" : "text-neutral-950"}`} href={`/preview?search=`}>
+        <li className={`grow rounded-sm ${selected === "search" ? "bg-blue-50" : ""}`}>
+          <Link className={`flex flex-col justify-center items-center py-1 ${selected === "search" ? "text-blue-500" : "text-neutral-950"}`} href={`/preview?search=`}>
             <SearchSVG />
-            <span className="hidden">Search</span>
+            <span className="hidden md:block">Search</span>
           </Link>
         </li>
-        <li className="grow">
-          <Link className={`flex rounded-sm justify-center py-1 ${selected === "archived" ? "bg-blue-50 text-blue-500" : "text-neutral-950"}`} href={`/preview?archived`}>
+        <li className={`grow rounded-sm ${selected === "archived" ? "bg-blue-50" : ""}`}>
+          <Link className={`flex flex-col justify-center items-center py-1 ${selected === "archived" ? "text-blue-500" : "text-neutral-950"}`} href={`/preview?archived`}>
             <ArchiveSVG />
-            <span className="hidden">Archived</span>
+            <span className="hidden md:block">Archived</span>
           </Link>
         </li>
-        <li className="grow">
-          <Link className={`flex rounded-sm justify-center py-1 ${selected === "tags" ? "bg-blue-50 text-blue-500" : "text-neutral-950"}`} href={`/preview?tag=`}>
+        <li className={`grow rounded-sm ${selected === "tags" ? "bg-blue-50" : ""}`}>
+          <Link className={`flex flex-col justify-center items-center py-1 ${selected === "tags" ? "text-blue-500" : "text-neutral-950"}`} href={`/preview?tag=`}>
             <TagsSVG />
-            <span className="hidden">Tags</span>
+            <span className="hidden md:block">Tags</span>
           </Link>
         </li>
-        <li className="grow">
-          <Link className={`flex rounded-sm justify-center py-1 ${selected === "settings" ? "bg-blue-50 text-blue-500" : "text-neutral-950"}`} href={`/settings`}>
+        <li className={`grow rounded-sm ${selected === "settings" ? "bg-blue-50" : ""}`}>
+          <Link className={`flex flex-col justify-center items-center py-1 ${selected === "settings" ? "text-blue-500" : "text-neutral-950"}`} href={`/settings`}>
             <SettingsSVG />
-            <span className="hidden">Settings</span>
+            <span className="hidden md:block">Settings</span>
           </Link>
         </li>
       </ul>
