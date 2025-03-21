@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/ui/header";
+import Navigation from "@/ui/navigation";
 
 export const metadata: Metadata = {
   title: "Notes",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="flex flex-col h-full bg-neutral-100">
         <Header />
         {children}
+      <Navigation />
       </body>
     </html>
   );
