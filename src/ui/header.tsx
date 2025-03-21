@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import light from "../../public/icons/logo-light.svg";
 import LogoSVG from "./svgs/logo";
 
 export default function Header(){

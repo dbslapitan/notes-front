@@ -30,7 +30,7 @@ export default function Navigation(){
           </NavLink>
         </li>
         <li className={`grow md:border-r md:border-neutral-200`}>
-          <NavLink href={`/preview?tag=`} link="tag">
+          <NavLink href={`/preview?tag=`} link="tags">
             <TagsSVG />
             <span className={`hidden md:block ${text["preset-6"]}`}>Tags</span>
           </NavLink>
