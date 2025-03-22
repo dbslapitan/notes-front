@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className="h-full" lang="en">
-      <body className="flex flex-col h-full bg-neutral-100">
+      <body className="flex flex-col h-full bg-neutral-100 text-neutral-950">
         <Header />
         {children}
       <Navigation />
