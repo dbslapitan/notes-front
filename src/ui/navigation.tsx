@@ -1,4 +1,3 @@
-import Link from "next/link";
 import HomeSVG from "./svgs/home";
 import SearchSVG from "./svgs/search";
 import ArchiveSVG from "./svgs/archive";
