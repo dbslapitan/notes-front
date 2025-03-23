@@ -29,7 +29,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       const newNote = notes.filter(note => note.title.toLowerCase() === value.toLowerCase() || note.content.toLowerCase() === value.toLowerCase() || note.tags.findIndex(tag => tag.toLowerCase() === value.toLowerCase()) !== -1);
       return <Search notes={newNote} username={username} value={value}/>;
     } else if(resolvedQuery === "tags"){
-      return <TagsPage tags={tags}/>
+      return <TagsPage username={username} tags={tags}/>
     }
     else{
       return <Home notes={notes} username={username} />;

@@ -1,15 +1,16 @@
 import Link from "next/link";
+import TagsSVG from "./svgs/tag";
 
-export default function TagsList({tags}: {tags: string[]}){
+export default function TagsList({tags, username}: {tags: string[], username: string}){
 
   return(
-    <ul className={`mt-4`}>
+    <ul>
       {
         tags.map(tag => {
-          console.log(tag);
           return(
             <li key={tag}>
-              <Link href={`#`}>
+              <Link href={`/${username}?tag=${tag}`} className="flex gap-2 pt-3 pb-4 border-b border-b-neutral-200">
+                <span><TagsSVG /></span>
                 {
                   tag
                 }
