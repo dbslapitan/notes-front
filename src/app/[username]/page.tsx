@@ -1,5 +1,6 @@
 import { URI } from "@/lib/constants";
 import { INote } from "@/models/note";
+import Archived from "@/ui/archived";
 import Home from "@/ui/home";
 
 export default async function Page({ params, searchParams }: { params: Promise<{ username: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
@@ -17,7 +18,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       return <Home notes={notes} username={username} />
     } else if (resolvedQuery === "archived"){
       const newNote = notes.filter(note => note.isArchived);
-      return <main className="grow"></main>
+      return <Archived notes={newNote} username={username} />
     }
     else{
       return <main className="grow"></main>
