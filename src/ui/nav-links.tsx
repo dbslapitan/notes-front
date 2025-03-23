@@ -8,7 +8,7 @@ export default function NavLink({children, link, href}: {children: ReactNode, li
 
   const params = useSearchParams();
   const {username} = useParams();
-  console.log(username);
+  
   const resolvedParam = params.has("search") && "search" || params.has("tag") && "tags" || params.has("archived") && "archived" || "home";
 
   return(
