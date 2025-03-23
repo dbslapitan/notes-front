@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { JSX, ReactNode } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { ReactNode } from "react";
 
 export default function NavLink({children, link, href}: {children: ReactNode, link: string, href: string}){
 

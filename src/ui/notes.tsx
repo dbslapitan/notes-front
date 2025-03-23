@@ -1,13 +1,11 @@
 import { INote } from "@/models/note";
-import { ScrollArea } from "./scroll-area";
 import Link from "next/link";
 import { text } from "@/lib/text";
 import { Badge } from "./badge";
 
-export default function ({notes, username}: {notes: INote[], username: string}){
+export default function Notes({notes, username}: {notes: INote[], username: string}){
   return(
-    <ScrollArea className="grow mt-4 pb-5 h-[535px]">
-    <ul>
+    <ul className="pb-5">
       {
         notes.map(note => {
           return (
@@ -34,6 +32,5 @@ export default function ({notes, username}: {notes: INote[], username: string}){
         })
       }
     </ul>
-  </ScrollArea>
   );
 }

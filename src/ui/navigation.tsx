@@ -5,10 +5,12 @@ import TagsSVG from "./svgs/tag";
 import SettingsSVG from "./svgs/settings";
 import { text } from "@/lib/text";
 import NavLink from "./nav-links";
+import { Suspense } from "react";
 
-export default function Navigation(){
-  return(
-    <nav className="shadow-sm py-3 px-4 md:px-0 border-t border-t-neutral-200 bg-neutral-0">
+export default function Navigation() {
+  return (
+    <Suspense>
+      <nav id="mobile-nav" className="shadow-sm py-3 px-4 md:px-0 border-t border-t-neutral-200 bg-neutral-0">
       <ul className="flex">
         <li className={`grow md:border-r md:border-neutral-200`}>
           <NavLink href={``} link="home">
@@ -42,5 +44,7 @@ export default function Navigation(){
         </li>
       </ul>
     </nav>
+    </Suspense>
+
   );
 }
