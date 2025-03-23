@@ -1,6 +1,5 @@
 import { text } from "@/lib/text";
 import Main from "./main";
-import { Input } from "./input";
 import SearchInput from "./search-input";
 import { INote } from "@/models/note";
 import Notes from "./notes";
