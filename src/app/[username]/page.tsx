@@ -40,7 +40,11 @@ export default async function Page({ params, searchParams }: { params: Promise<{
         if(index === -1){
           return redirect(`/${username}?tag=`, RedirectType.replace);
         }
-        return <Tagged username={username} value={value.toString()}/>
+        const newNotes = notes.filter(note => {
+          const i = note.tags.findIndex(tag => tag === value);
+          return i !== -1;
+        });
+        return <Tagged notes={newNotes} username={username} value={value.toString()}/>
       }
     }
     else{
