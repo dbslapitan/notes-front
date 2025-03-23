@@ -11,25 +11,25 @@ export default function Navigation(){
     <nav className="shadow-sm py-3 px-4 md:px-0 border-t border-t-neutral-200 bg-neutral-0">
       <ul className="flex">
         <li className={`grow md:border-r md:border-neutral-200`}>
-          <NavLink href={`/preview`} link="home">
+          <NavLink href={``} link="home">
             <HomeSVG />
             <span className={`hidden md:block ${text["preset-6"]}`}>Home</span>
           </NavLink>
         </li>
         <li className={`grow md:border-r md:border-neutral-200`}>
-          <NavLink href={`/preview?search=`} link="search">
+          <NavLink href={`?search=`} link="search">
             <SearchSVG />
             <span className={`hidden md:block ${text["preset-6"]}`}>Search</span>
           </NavLink>
         </li>
         <li className={`grow md:border-r md:border-neutral-200`}>
-          <NavLink href={`/preview?archived`} link="archived">
+          <NavLink href={`?archived`} link="archived">
             <ArchiveSVG />
             <span className={`hidden md:block ${text["preset-6"]}`}>Archived</span>
           </NavLink>
         </li>
         <li className={`grow md:border-r md:border-neutral-200`}>
-          <NavLink href={`/preview?tag=`} link="tags">
+          <NavLink href={`?tag=`} link="tags">
             <TagsSVG />
             <span className={`hidden md:block ${text["preset-6"]}`}>Tags</span>
           </NavLink>
