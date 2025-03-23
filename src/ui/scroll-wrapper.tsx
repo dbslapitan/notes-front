@@ -8,15 +8,24 @@ export default function ScrollWrapper({bottomId = null, children}: {bottomId?: s
   const scrollRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
-    if(bottomId){
-      const totalHeight = window.innerHeight;
-      const bottomElement = document.querySelector(bottomId);
-      const scrollTop =(scrollRef.current as HTMLDivElement).getBoundingClientRect().top;
-      const bottomElTop = bottomElement?.getBoundingClientRect().height
-      const scrollHeight = totalHeight - scrollTop - Number(bottomElTop);
-      if(bottomElTop){
-      (scrollRef.current as HTMLDivElement).style.height = `${scrollHeight}px`;
+
+    const setScrollHeight = () => {
+      if(bottomId){
+        const totalHeight = window.innerHeight;
+        const bottomElement = document.querySelector(bottomId);
+        const scrollTop =(scrollRef.current as HTMLDivElement).getBoundingClientRect().top;
+        const bottomElTop = bottomElement?.getBoundingClientRect().height
+        const scrollHeight = totalHeight - scrollTop - Number(bottomElTop);
+        if(bottomElTop){
+        (scrollRef.current as HTMLDivElement).style.height = `${scrollHeight}px`;
+        }
       }
+    }
+    setScrollHeight();
+    window.addEventListener("resize", setScrollHeight);
+
+    return () => {
+      window.removeEventListener("resize", setScrollHeight);
     }
   });
 
