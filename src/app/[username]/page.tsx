@@ -3,7 +3,9 @@ import { INote } from "@/models/note";
 import Archived from "@/ui/archived";
 import Home from "@/ui/home";
 import Search from "@/ui/search";
+import Tagged from "@/ui/tagged";
 import TagsPage from "@/ui/tags.page";
+import { redirect, RedirectType } from "next/navigation";
 
 export default async function Page({ params, searchParams }: { params: Promise<{ username: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
 
@@ -29,7 +31,17 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       const newNote = notes.filter(note => note.title.toLowerCase() === value.toLowerCase() || note.content.toLowerCase() === value.toLowerCase() || note.tags.findIndex(tag => tag.toLowerCase() === value.toLowerCase()) !== -1);
       return <Search notes={newNote} username={username} value={value}/>;
     } else if(resolvedQuery === "tags"){
-      return <TagsPage username={username} tags={tags}/>
+      const value = query.tag;
+      console.log(value);
+      if(!value){
+        return <TagsPage username={username} tags={tags}/>
+      } else{
+        const index = tags.findIndex(tag => tag.toLowerCase() === (value as string).toLowerCase());
+        if(index === -1){
+          return redirect(`/${username}?tag=`, RedirectType.replace);
+        }
+        return <Tagged username={username} value={value.toString()}/>
+      }
     }
     else{
       return <Home notes={notes} username={username} />;
