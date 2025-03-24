@@ -4,6 +4,7 @@ import GoBack from "./go-back";
 import Notes from "./notes";
 import { INote } from "@/models/note";
 import ScrollWrapper from "./scroll-wrapper";
+import Create from "./create";
 
 export default function Tagged({value, username, notes}: {value: string, username: string, notes: INote[]}){
   return(
@@ -14,6 +15,7 @@ export default function Tagged({value, username, notes}: {value: string, usernam
       <ScrollWrapper bottomId={"#mobile-nav"}>
         <Notes notes={notes} helper={`tag=${value}`} username={username}/>
       </ScrollWrapper>
+      <Create href={`/${username}/create?tag=${value}`} />
     </Main>
   );
 }

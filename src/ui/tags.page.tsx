@@ -2,6 +2,7 @@ import { text } from "@/lib/text";
 import Main from "./main";
 import TagsList from "./tags-list";
 import ScrollWrapper from "./scroll-wrapper";
+import Create from "./create";
 
 export default function TagsPage({tags, username}: {tags: string[], username: string}){
 
@@ -11,6 +12,7 @@ export default function TagsPage({tags, username}: {tags: string[], username: st
       <ScrollWrapper bottomId={"#mobile-nav"}>
         <TagsList tags={tags} username={username} />
       </ScrollWrapper>
+      <Create href={`/${username}/create?tag=`} />
     </Main>
   );
 }

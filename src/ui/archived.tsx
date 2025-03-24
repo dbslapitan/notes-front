@@ -3,6 +3,7 @@ import Main from "./main";
 import { INote } from "@/models/note";
 import Notes from "./notes";
 import ScrollWrapper from "./scroll-wrapper";
+import Create from "./create";
 
 export default function Archived({notes, username}: {notes: INote[], username: string}){
   return(
@@ -12,6 +13,7 @@ export default function Archived({notes, username}: {notes: INote[], username: s
       <ScrollWrapper bottomId={"mobile-nav"}>
         <Notes notes={notes} helper="archived" username={username} />
       </ScrollWrapper>
+      <Create href={`/${username}/create?archived`} />
     </Main>
   );
 }
