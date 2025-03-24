@@ -2,6 +2,7 @@ import { URI } from "@/lib/constants";
 import { INote } from "@/models/note";
 import Archived from "@/ui/archived";
 import Home from "@/ui/home";
+import Note from "@/ui/note";
 import Search from "@/ui/search";
 import Tagged from "@/ui/tagged";
 import TagsPage from "@/ui/tags.page";
@@ -13,7 +14,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const query = await searchParams;
   const queryObject = new Object(query);
 
-  const resolvedQuery = queryObject.hasOwnProperty("selected") && "selected" || queryObject.hasOwnProperty("search") && "search" || queryObject.hasOwnProperty("tag") && "tags" || queryObject.hasOwnProperty("archived") && "archived" || "home";
+  const resolvedQuery = queryObject.hasOwnProperty("selected") && "selected" || queryObject.hasOwnProperty("search") && "search" || queryObject.hasOwnProperty("tag") && "tag" || queryObject.hasOwnProperty("archived") && "archived" || "home";
 
   const { notes, tags }: { notes: INote[], tags: string[] } = await fetch(`${URI}/api/v1/${username}`, { method: "GET", cache: "force-cache" }).then(res => res.json());
 
@@ -30,7 +31,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       const value = query.search.toString();
       const newNote = notes.filter(note => note.title.toLowerCase() === value.toLowerCase() || note.content.toLowerCase() === value.toLowerCase() || note.tags.findIndex(tag => tag.toLowerCase() === value.toLowerCase()) !== -1);
       return <Search notes={newNote} username={username} value={value}/>;
-    } else if(resolvedQuery === "tags"){
+    } else if(resolvedQuery === "tag"){
       const value = query.tag;
       console.log(value);
       if(!value){
@@ -48,8 +49,20 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       }
     } else if(resolvedQuery === "selected"){
       if(!notes.some(note => note._id === query.selected)){
-        redirect(`/${username}`, RedirectType.replace);
+        return redirect(`/${username}`, RedirectType.replace);
       }
+      const href = (() => {
+        const resolved = queryObject.hasOwnProperty("search") && "search" || queryObject.hasOwnProperty("tag") && "tag" || queryObject.hasOwnProperty("archived") && "archived" || "home";
+        if(resolved !== "home" && resolved !== "archived"){
+          const value = query[resolved];
+          return `/${username}?${resolved}=${value || ""}`
+        } else if(resolved === "archived"){
+          return `/${username}?archived`;
+        } else {
+          return `/${username}`
+        }
+      })();
+      return <Note href={href} />
     }
     else{
       return <Home notes={notes} username={username} />;
