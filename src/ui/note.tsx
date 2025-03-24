@@ -17,7 +17,10 @@ export default function Note({ href }: { href: string }) {
           <button className={`block ${text["preset-5"]} text-neutral-600 bg-inherit`}>Cancel</button>
           <button className={`block ${text["preset-5"]} text-blue-500 bg-inherit`}>Save Note</button>
         </div>
-        <input type="text" placeholder="" />
+        <input className={`mt-3 ${text["preset-2"]} placeholder:text-neutral-950`} type="text" placeholder="Enter a title..." />
+        <div className={`mt-3`}>
+
+        </div>
       </form>
     </Main>
   );

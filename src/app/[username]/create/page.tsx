@@ -1,9 +1,7 @@
-import Main from "@/ui/main";
+import Note from "@/ui/note";
 
 export default async function Page(){
   return(
-    <Main>
-      <h1>Create</h1>
-    </Main>
+    <Note href="" />
   );
 }
