@@ -14,7 +14,7 @@ export default function Navigation() {
       <ul className="flex">
         <li className={`grow md:border-r md:border-neutral-200`}>
           <NavLink href={``} link="home">
-            <HomeSVG />
+            <span className="w-6 h-6"><HomeSVG /></span>
             <span className={`hidden md:block ${text["preset-6"]}`}>Home</span>
           </NavLink>
         </li>
@@ -26,7 +26,7 @@ export default function Navigation() {
         </li>
         <li className={`grow md:border-r md:border-neutral-200`}>
           <NavLink href={`?archived`} link="archived">
-            <ArchiveSVG />
+            <span className="w-6 h-6"><ArchiveSVG /></span>
             <span className={`hidden md:block ${text["preset-6"]}`}>Archived</span>
           </NavLink>
         </li>
