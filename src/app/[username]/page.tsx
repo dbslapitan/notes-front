@@ -13,7 +13,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const query = await searchParams;
   const queryObject = new Object(query);
 
-  const resolvedQuery = queryObject.hasOwnProperty("search") && "search" || queryObject.hasOwnProperty("tag") && "tags" || queryObject.hasOwnProperty("archived") && "archived" || "home";
+  const resolvedQuery = queryObject.hasOwnProperty("selected") && "selected" || queryObject.hasOwnProperty("search") && "search" || queryObject.hasOwnProperty("tag") && "tags" || queryObject.hasOwnProperty("archived") && "archived" || "home";
 
   const { notes, tags }: { notes: INote[], tags: string[] } = await fetch(`${URI}/api/v1/${username}`, { method: "GET", cache: "force-cache" }).then(res => res.json());
 
@@ -45,6 +45,10 @@ export default async function Page({ params, searchParams }: { params: Promise<{
           return i !== -1;
         });
         return <Tagged notes={newNotes} username={username} value={value.toString()}/>
+      }
+    } else if(resolvedQuery === "selected"){
+      if(!notes.some(note => note._id === query.selected)){
+        redirect(`/${username}`, RedirectType.replace);
       }
     }
     else{

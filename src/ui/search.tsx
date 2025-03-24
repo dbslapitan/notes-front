@@ -16,7 +16,7 @@ export default function Search({notes, username, value}: {notes: INote[], userna
         value.trim() && <p className={`mt-4 ${text["preset-5"]} text-neutral-700`}>All notes matching {`"${value}"`} are displayed below.</p>
       }
       {
-        notes.length ? <ScrollWrapper bottomId={"#mobile-nav"}><Notes notes={notes} username={username} /></ScrollWrapper> : <p className={`mt-4 p-2 rounded-[0.5rem] bg-neutral-100 ${text["preset-5"]}`}>No notes match your search. Try a different keyword or <Link className="underline" href={`${username}/create`}>create a new note.</Link></p>
+        notes.length ? <ScrollWrapper bottomId={"#mobile-nav"}><Notes notes={notes} helper={`search=${value}`} username={username} /></ScrollWrapper> : <p className={`mt-4 p-2 rounded-[0.5rem] bg-neutral-100 ${text["preset-5"]}`}>No notes match your search. Try a different keyword or <Link className="underline" href={`${username}/create`}>create a new note.</Link></p>
       }
     </Main>
   );

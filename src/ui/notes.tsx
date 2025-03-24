@@ -3,14 +3,14 @@ import Link from "next/link";
 import { text } from "@/lib/text";
 import { Badge } from "./badge";
 
-export default function Notes({notes, username}: {notes: INote[], username: string}){
+export default function Notes({notes, username, helper=""}: {notes: INote[], username: string, helper?: string}){
   return(
     <ul className="pb-5">
       {
         notes.map(note => {
           return (
             <li key={note._id} className={`note border-t border-t-neutral-200 first-of-type:border-none [.selected+li]:border-none`}>
-              <Link href={`/${username}?selected=${note._id}`} className={`block pt-2 px-2 pb-3`}>
+              <Link href={`/${username}?${`${helper && `${helper}&`}`}selected=${note._id}`} className={`block pt-2 px-2 pb-3`}>
                 <h2 className={`${text["preset-3"]}`}>{note.title}</h2>
                 <ul className="mt-3 flex flex-wrap gap-1">
                   {
