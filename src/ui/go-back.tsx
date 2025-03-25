@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import greater from "../../public/icons/icon-arrow-left.svg"
 import { text } from "@/lib/text";
-import { URI } from "@/lib/constants";
 
 export default function GoBack({href, className=""}: {href: string, className?: string}){
 

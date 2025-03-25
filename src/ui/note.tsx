@@ -1,13 +1,13 @@
-import Image from "next/image";
-import { Button } from "./button";
+"use client";
+
 import GoBack from "./go-back";
 import Main from "./main";
 import DeleteSVG from "./svgs/delete";
 import ArchiveSVG from "./svgs/archive";
 import { text } from "@/lib/text";
-import tag from "../../public/icons/icon-tag.svg";
 import TagsSVG from "./svgs/tag";
 import Clock from "./svgs/clock";
+import Editor from "./editor";
 
 export default function Note({ href }: { href: string }) {
   return (
@@ -32,6 +32,7 @@ export default function Note({ href }: { href: string }) {
           </p>
           <p>Not yet saved</p>
         </div>
+        <Editor />
       </form>
     </Main>
   );

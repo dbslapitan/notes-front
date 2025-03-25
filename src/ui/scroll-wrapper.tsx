@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useRef } from "react";
 import { ScrollArea } from "./scroll-area";
 
-export default function ScrollWrapper({bottomId = null, children}: {bottomId?: string | null, children: ReactNode}){
+export default function ScrollWrapper({bottomId = null, children, id = ""}: {bottomId?: string | null, children: ReactNode, id?: string}){
 
   const scrollRef = useRef<null | HTMLDivElement>(null);
 
@@ -30,7 +30,7 @@ export default function ScrollWrapper({bottomId = null, children}: {bottomId?: s
   });
 
   return(
-    <ScrollArea className="grow mt-4" ref={scrollRef}>
+    <ScrollArea className="grow mt-4" ref={scrollRef} id={id}>
       {children}
     </ScrollArea>
   );

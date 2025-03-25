@@ -16,7 +16,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
 
   const resolvedQuery = queryObject.hasOwnProperty("selected") && "selected" || queryObject.hasOwnProperty("search") && "search" || queryObject.hasOwnProperty("tag") && "tag" || queryObject.hasOwnProperty("archived") && "archived" || "home";
 
-  const { notes, tags }: { notes: INote[], tags: string[] } = await fetch(`${URI}/api/v1/${username}`, { method: "GET", cache: "force-cache" }).then(res => res.json());
+  const { notes, tags }: { notes: INote[], tags: string[] } = await fetch(`${URI}/api/v1/${username}`, { method: "GET", cache: "force-cache" }).then(res => res?.json());
 
   const component = (() => {
     if (resolvedQuery === "home") {
