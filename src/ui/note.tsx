@@ -5,6 +5,9 @@ import Main from "./main";
 import DeleteSVG from "./svgs/delete";
 import ArchiveSVG from "./svgs/archive";
 import { text } from "@/lib/text";
+import tag from "../../public/icons/icon-tag.svg";
+import TagsSVG from "./svgs/tag";
+import Clock from "./svgs/clock";
 
 export default function Note({ href }: { href: string }) {
   return (
@@ -17,9 +20,17 @@ export default function Note({ href }: { href: string }) {
           <button className={`block ${text["preset-5"]} text-neutral-600 bg-inherit`}>Cancel</button>
           <button className={`block ${text["preset-5"]} text-blue-500 bg-inherit`}>Save Note</button>
         </div>
-        <input className={`mt-3 ${text["preset-2"]} placeholder:text-neutral-950`} type="text" placeholder="Enter a title..." />
-        <div className={`mt-3`}>
-
+        <input className={`mt-3 ${text["preset-2"]} placeholder:text-neutral-950 w-full focus:outline-none focus:placeholder:text-transparent`} type="text" placeholder="Enter a title..." />
+        <div className={`${text["preset-6"]} flex gap-2 mt-3`}>
+          <label htmlFor="tags" className="flex gap-1.5 min-w-[33.53%] text-neutral-700"><span className="w-4 h-4"><TagsSVG /></span>Tags</label>
+          <input type="text" id="tags" className={`grow focus:outline-none placeholder:text-[#99A0AE] focus:placeholder:text-transparent`} placeholder="Add tags separated by commas(e.g. Work, Planning)" />
+        </div>
+        <div className={`${text["preset-6"]} flex gap-2 mt-3 text-[#99A0AE] pb-3 border-b border-b-neutral-200`}>
+          <p className="flex gap-1.5 min-w-[33.53%] text-neutral-700">
+            <span className="block w-4 h-4"><Clock /></span>
+            Last Edited
+          </p>
+          <p>Not yet saved</p>
         </div>
       </form>
     </Main>
