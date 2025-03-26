@@ -9,8 +9,8 @@ export default function TagsList({tags, username}: {tags: string[], username: st
         tags.map(tag => {
           return(
             <li key={tag}>
-              <Link href={`/${username}?tag=${tag}`} className="flex gap-2 pt-3 pb-4 border-b border-b-neutral-200">
-                <span><TagsSVG /></span>
+              <Link href={`/${username}?tag=${tag}`} className="flex gap-2 pt-3 pb-4 border-b border-b-neutral-200 items-center">
+                <span className="block w-5 h-5"><TagsSVG /></span>
                 {
                   tag
                 }

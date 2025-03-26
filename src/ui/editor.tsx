@@ -18,7 +18,7 @@ export default function Editor(){
       }
     });
     const scroll = document.querySelector("#scroll-editor");
-    (containerRef.current as HTMLDivElement).style.height = `${scroll?.clientHeight}px`;
+    (containerRef.current as HTMLDivElement).style.height = `${(scroll?.clientHeight as number) - 16}px`;
     console.log(quill);
   });
 
