@@ -17,7 +17,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
 
   const resolvedQuery = await resolveSearchParam(searchParams);
 
-  const { notes, tags }: { notes: INote[], tags: string[] } = await fetch(`${URI}/api/v1/${username}`, { method: "GET", cache: "force-cache" }).then(res => res?.json());
+  const { notes, tags }: { notes: INote[], tags: string[] } = await fetch(`${URI}/api/v1/${username}`, { method: "GET"}).then(res => res?.json());
 
   const component = (() => {
     if (resolvedQuery === "home") {
@@ -63,7 +63,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
           return `/${username}`
         }
       })();
-      return <Note href={href} />
+      return <Note href={href} username={username} />
     }
     else{
       return <Home notes={notes} username={username} />;

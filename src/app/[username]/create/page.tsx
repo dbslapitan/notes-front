@@ -21,6 +21,6 @@ export default async function Page({params, searchParams}: {params: Promise<{use
   })();
 
   return(
-    <Note href={href} />
+    <Note href={href} username={username} />
   );
 }

@@ -4,5 +4,5 @@ export interface INote{
   isArchived: boolean,
   tags: string[],
   content: string,
-  lastEdited: string
+  lastEdited: Date
 }
