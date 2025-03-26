@@ -1,10 +1,10 @@
 "use client";
 
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import ScrollWrapper from "./scroll-wrapper";
 import Quill from "quill";
 
-export default function Editor(){
+export default function Editor({quillRef}: {quillRef: RefObject<Quill | null>}){
 
   const toolbarRef = useRef<null | HTMLDivElement>(null);
   const containerRef = useRef<null | HTMLDivElement>(null);
@@ -19,7 +19,7 @@ export default function Editor(){
     });
     const scroll = document.querySelector("#scroll-editor");
     (containerRef.current as HTMLDivElement).style.height = `${(scroll?.clientHeight as number) - 16}px`;
-    console.log(quill);
+    quillRef.current = quill;
   });
 
   return(

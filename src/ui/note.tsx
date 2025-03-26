@@ -8,11 +8,25 @@ import { text } from "@/lib/text";
 import TagsSVG from "./svgs/tag";
 import Clock from "./svgs/clock";
 import Editor from "./editor";
+import { FormEvent, useRef } from "react";
+import Quill from "quill";
 
 export default function Note({ href }: { href: string }) {
+
+
+  const quillRef = useRef<null | Quill>(null);
+
+  const handleSave = (event: FormEvent) => {
+    event.preventDefault();
+
+    const content = JSON.stringify(quillRef.current?.getContents());
+
+    console.log(content);
+  }
+
   return (
     <Main>
-      <form className="">
+      <form onSubmit={handleSave}>
         <div className="flex gap-4 pb-3 border-b border-b-neutral-200">
           <GoBack href={`${href}`} />
           <button className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit ml-auto`}><DeleteSVG /></button>
@@ -32,7 +46,7 @@ export default function Note({ href }: { href: string }) {
           </p>
           <p>Not yet saved</p>
         </div>
-        <Editor />
+        <Editor quillRef={quillRef} />
       </form>
     </Main>
   );

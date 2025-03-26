@@ -1,4 +1,5 @@
 import { URI } from "@/lib/constants";
+import { resolveSearchParam } from "@/lib/search-param";
 import { INote } from "@/models/note";
 import Archived from "@/ui/archived";
 import Home from "@/ui/home";
@@ -14,7 +15,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
   const query = await searchParams;
   const queryObject = new Object(query);
 
-  const resolvedQuery = queryObject.hasOwnProperty("selected") && "selected" || queryObject.hasOwnProperty("search") && "search" || queryObject.hasOwnProperty("tag") && "tag" || queryObject.hasOwnProperty("archived") && "archived" || "home";
+  const resolvedQuery = await resolveSearchParam(searchParams);
 
   const { notes, tags }: { notes: INote[], tags: string[] } = await fetch(`${URI}/api/v1/${username}`, { method: "GET", cache: "force-cache" }).then(res => res?.json());
 
