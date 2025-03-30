@@ -13,6 +13,7 @@ import Quill from "quill";
 import { INote } from "@/models/note";
 import { URI } from "@/lib/constants";
 import { revalidate } from "@/lib/server";
+import { redirect, RedirectType } from "next/navigation";
 
 export default function Note({ href, username }: { href: string, username: string }) {
 
@@ -44,7 +45,7 @@ export default function Note({ href, username }: { href: string, username: strin
     console.log(newNote);
     const id = await fetch(`${URI}/api/v1/${username}` ,{method: "POST", body: JSON.stringify(newNote), headers: {"Content-Type": "application/json"}}).then(res => res.json());
     await revalidate("/preview");
-
+    redirect(`/${username}?selected=${id}`, RedirectType.replace);
   }
 
   return (
