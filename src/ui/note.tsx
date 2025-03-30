@@ -8,12 +8,15 @@ import { text } from "@/lib/text";
 import TagsSVG from "./svgs/tag";
 import Clock from "./svgs/clock";
 import Editor from "./editor";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import Quill from "quill";
 import { INote } from "@/models/note";
 import { URI } from "@/lib/constants";
 import { revalidate } from "@/lib/server";
 import { redirect, RedirectType, useRouter } from "next/navigation";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./dialog";
+import Image from "next/image";
+import trash from "../../public/icons/icon-delete.svg";
 
 export default function Note({ href, username, note = null }: { href: string, username: string, note?: INote | null }) {
 
@@ -21,6 +24,8 @@ export default function Note({ href, username, note = null }: { href: string, us
   const titleRef = useRef<HTMLInputElement>(null);
   const quillRef = useRef<null | Quill>(null);
   const router = useRouter();
+
+  const [openDelete, setOpenDelete] = useState(false);
 
   const tags = note?.tags.join(", ");
 
@@ -46,27 +51,31 @@ export default function Note({ href, username, note = null }: { href: string, us
 
     try {
       if (note) {
-          await fetch(`${URI}/api/v1/${username}/${note._id}`, {method: "PATCH", headers:{"Content-Type": "application/json"}, body: JSON.stringify(newNote)}).then(res => res.json());
-          await revalidate("/preview")
+        await fetch(`${URI}/api/v1/${username}/${note._id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(newNote) }).then(res => res.json());
+        await revalidate("/preview")
       }
       else {
         const id = await fetch(`${URI}/api/v1/${username}`, { method: "POST", body: JSON.stringify(newNote), headers: { "Content-Type": "application/json" } }).then(res => res.json());
         await revalidate("/preview");
         redirect(`/${username}?selected=${id}`, RedirectType.replace);
       }
-    } catch(e){
+    } catch (e) {
       console.error(e);
     }
   }
 
   const handleDelete = async () => {
-    try{
-      await fetch(`${URI}/api/v1/${username}/${note?._id}`, {method: "DELETE"}).then(res => res.json());
+    try {
+      await fetch(`${URI}/api/v1/${username}/${note?._id}`, { method: "DELETE" }).then(res => res.json());
       await revalidate(`/${username}`);
       router.replace(`/${username}`);
-    } catch(e){
+    } catch (e) {
       console.error(e);
     }
+  }
+
+  const handleDialog = () => {
+    setOpenDelete(!openDelete);
   }
 
   return (
@@ -74,7 +83,27 @@ export default function Note({ href, username, note = null }: { href: string, us
       <form onSubmit={handleSave}>
         <div className="flex gap-4 pb-3 border-b border-b-neutral-200">
           <GoBack href={`${href}`} />
-          <button type="button" onClick={handleDelete} className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit ml-auto hover:cursor-pointer`}><DeleteSVG /></button>
+          <Dialog open={openDelete} onOpenChange={setOpenDelete}>
+            <DialogTrigger asChild>
+              <button type="button" onClick={handleDialog} className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit ml-auto hover:cursor-pointer`}><DeleteSVG /></button>
+            </DialogTrigger>
+            <DialogContent className={`p-5 p-b-4`}>
+              <div className="flex items-start gap-4 pb-5 border-b border-b-neutral-200">
+                <span className={`min-h-fit min-w-fit p-2 rounded-[0.5rem] bg-neutral-100`}>
+                  <Image src={trash} alt="" />
+                </span>
+                <div>
+                  <DialogTitle className={`${text["preset-3"]}`}>Delete Note</DialogTitle>
+                  <DialogDescription className={`${text["preset-5"]} mt-1.5 text-neutral-700`}>Are you sure you want to permanently delete this note? This action cannot be undone.</DialogDescription>
+                </div>
+              </div>
+              <div className="text-right">
+                <button className="py-3 px-4 text-neutral-600 bg-neutral-100 rounded-[0.5rem]" onClick={() => setOpenDelete(false)}>Cancel</button>
+                <button className="py-3 px-4 ml-4 bg-red-500 text-neutral-0 rounded-[0.5rem]" onClick={handleDelete}>Delete Note</button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
           <button type="button" className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit hover:cursor-pointer`}><ArchiveSVG /></button>
           <button type="button" className={`block ${text["preset-5"]} text-neutral-600 bg-inherit hover:cursor-pointer`}>Cancel</button>
           <button className={`block ${text["preset-5"]} text-blue-500 bg-inherit hover:cursor-pointer`}>Save Note</button>
