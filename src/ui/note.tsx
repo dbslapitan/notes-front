@@ -13,7 +13,7 @@ import Quill from "quill";
 import { INote } from "@/models/note";
 import { URI } from "@/lib/constants";
 import { revalidate } from "@/lib/server";
-import { useRouter } from "next/navigation";
+import { redirect, RedirectType, useRouter } from "next/navigation";
 
 export default function Note({ href, username, note = null }: { href: string, username: string, note?: INote | null }) {
 
@@ -26,7 +26,6 @@ export default function Note({ href, username, note = null }: { href: string, us
 
   const handleSave = async (event: FormEvent) => {
     event.preventDefault();
-
     const content = JSON.stringify(quillRef.current?.getContents());
     const tags = (tagsRef.current?.value as string).split(",").map(tag => {
       const newTag = tag.trim().toLowerCase();
@@ -47,16 +46,26 @@ export default function Note({ href, username, note = null }: { href: string, us
 
     try {
       if (note) {
-          await fetch(`${URI}/api/v1/${username}/${note._id}`, {method: "PATCH", headers:{"Content-Type": "application/json"}, body: JSON.stringify(newNote)});
+          await fetch(`${URI}/api/v1/${username}/${note._id}`, {method: "PATCH", headers:{"Content-Type": "application/json"}, body: JSON.stringify(newNote)}).then(res => res.json());
           await revalidate("/preview")
       }
       else {
         const id = await fetch(`${URI}/api/v1/${username}`, { method: "POST", body: JSON.stringify(newNote), headers: { "Content-Type": "application/json" } }).then(res => res.json());
         await revalidate("/preview");
-        router.replace(`/${username}?selected=${id}`);
+        redirect(`/${username}?selected=${id}`, RedirectType.replace);
       }
     } catch(e){
-      console.log(e);
+      console.error(e);
+    }
+  }
+
+  const handleDelete = async () => {
+    try{
+      await fetch(`${URI}/api/v1/${username}/${note?._id}`, {method: "DELETE"}).then(res => res.json());
+      await revalidate(`/${username}`);
+      router.replace(`/${username}`);
+    } catch(e){
+      console.error(e);
     }
   }
 
@@ -65,10 +74,10 @@ export default function Note({ href, username, note = null }: { href: string, us
       <form onSubmit={handleSave}>
         <div className="flex gap-4 pb-3 border-b border-b-neutral-200">
           <GoBack href={`${href}`} />
-          <button className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit ml-auto`}><DeleteSVG /></button>
-          <button className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit`}><ArchiveSVG /></button>
-          <button className={`block ${text["preset-5"]} text-neutral-600 bg-inherit`}>Cancel</button>
-          <button className={`block ${text["preset-5"]} text-blue-500 bg-inherit`}>Save Note</button>
+          <button type="button" onClick={handleDelete} className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit ml-auto hover:cursor-pointer`}><DeleteSVG /></button>
+          <button type="button" className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit hover:cursor-pointer`}><ArchiveSVG /></button>
+          <button type="button" className={`block ${text["preset-5"]} text-neutral-600 bg-inherit hover:cursor-pointer`}>Cancel</button>
+          <button className={`block ${text["preset-5"]} text-blue-500 bg-inherit hover:cursor-pointer`}>Save Note</button>
         </div>
         <input className={`mt-3 ${text["preset-2"]} placeholder:text-neutral-950 w-full focus:outline-none focus:placeholder:text-transparent`} type="text" defaultValue={note?.title} placeholder="Enter a title..." ref={titleRef} />
         <div className={`${text["preset-6"]} flex gap-2 mt-3`}>
