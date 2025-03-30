@@ -13,13 +13,14 @@ import Quill from "quill";
 import { INote } from "@/models/note";
 import { URI } from "@/lib/constants";
 import { revalidate } from "@/lib/server";
-import { redirect, RedirectType } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Note({ href, username, note = null }: { href: string, username: string, note?: INote | null }) {
 
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const quillRef = useRef<null | Quill>(null);
+  const router = useRouter();
 
   const tags = note?.tags.join(", ");
 
@@ -29,7 +30,7 @@ export default function Note({ href, username, note = null }: { href: string, us
     const content = JSON.stringify(quillRef.current?.getContents());
     const tags = (tagsRef.current?.value as string).split(",").map(tag => {
       const newTag = tag.trim().toLowerCase();
-      if(newTag){
+      if (newTag) {
         return `${newTag[0].toUpperCase()}${newTag.slice(1)}`;
       }
       return newTag;
@@ -44,9 +45,19 @@ export default function Note({ href, username, note = null }: { href: string, us
       title
     };
 
-    const id = await fetch(`${URI}/api/v1/${username}` ,{method: "POST", body: JSON.stringify(newNote), headers: {"Content-Type": "application/json"}}).then(res => res.json());
-    await revalidate("/preview");
-    redirect(`/${username}?selected=${id}`, RedirectType.replace);
+    try {
+      if (note) {
+          await fetch(`${URI}/api/v1/${username}/${note._id}`, {method: "PATCH", headers:{"Content-Type": "application/json"}, body: JSON.stringify(newNote)});
+          await revalidate("/preview")
+      }
+      else {
+        const id = await fetch(`${URI}/api/v1/${username}`, { method: "POST", body: JSON.stringify(newNote), headers: { "Content-Type": "application/json" } }).then(res => res.json());
+        await revalidate("/preview");
+        router.replace(`/${username}?selected=${id}`);
+      }
+    } catch(e){
+      console.log(e);
+    }
   }
 
   return (
@@ -69,7 +80,7 @@ export default function Note({ href, username, note = null }: { href: string, us
             <span className="block w-4 h-4"><Clock /></span>
             Last Edited
           </p>
-          <p>{new Date(note?.lastEdited as Date).toLocaleDateString("en-GB", {day: "numeric", month: "short", year: "numeric"}) || "Not yet saved"}</p>
+          <p>{new Date(note?.lastEdited as Date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) || "Not yet saved"}</p>
         </div>
         <Editor quillRef={quillRef} delta={note?.content} />
       </form>

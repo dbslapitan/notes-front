@@ -20,7 +20,6 @@ export default function Editor({quillRef, delta = null}: {quillRef: RefObject<Qu
     const scroll = document.querySelector("#scroll-editor");
     (containerRef.current as HTMLDivElement).style.height = `${(scroll?.clientHeight as number) - 16}px`;
     if(delta){
-      console.log(JSON.parse(delta))
       quill.setContents(JSON.parse(delta));
     }
     quillRef.current = quill;
