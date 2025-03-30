@@ -17,6 +17,8 @@ import { redirect, RedirectType, useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./dialog";
 import Image from "next/image";
 import trash from "../../public/icons/icon-delete.svg";
+import archive from "../../public/icons/icon-archive.svg";
+import restore from "../../public/icons/icon-restore.svg";
 
 export default function Note({ href, username, note = null }: { href: string, username: string, note?: INote | null }) {
 
@@ -25,7 +27,8 @@ export default function Note({ href, username, note = null }: { href: string, us
   const quillRef = useRef<null | Quill>(null);
   const router = useRouter();
 
-  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteTrigger, setDeleteTrigger] = useState(false);
+  const [archiveTrigger, setArchiveTrigger] = useState(false);
 
   const tags = note?.tags.join(", ");
 
@@ -74,8 +77,21 @@ export default function Note({ href, username, note = null }: { href: string, us
     }
   }
 
-  const handleDialog = () => {
-    setOpenDelete(!openDelete);
+  const triggerDelete = () => {
+    setDeleteTrigger(!deleteTrigger);
+  }
+
+  const triggerArchive = () => {
+    setArchiveTrigger(!archiveTrigger);
+  }
+
+  const handleArchive = async () => {
+    if(note){
+      console.log("archived");
+      await fetch(`${URI}/api/v1/${username}/${note?._id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({isArchived: !note?.isArchived}) }).then(res => res.json());
+      await revalidate("/preview");
+      setArchiveTrigger(false);
+    }
   }
 
   return (
@@ -83,9 +99,9 @@ export default function Note({ href, username, note = null }: { href: string, us
       <form onSubmit={handleSave}>
         <div className="flex gap-4 pb-3 border-b border-b-neutral-200">
           <GoBack href={`${href}`} />
-          <Dialog open={openDelete} onOpenChange={setOpenDelete}>
+          {note && <Dialog open={deleteTrigger} onOpenChange={setDeleteTrigger}>
             <DialogTrigger asChild>
-              <button type="button" onClick={handleDialog} className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit ml-auto hover:cursor-pointer`}><DeleteSVG /></button>
+              <button type="button" onClick={triggerDelete} className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit ml-auto hover:cursor-pointer`}><DeleteSVG /></button>
             </DialogTrigger>
             <DialogContent className={`p-5 p-b-4`}>
               <div className="flex items-start gap-4 pb-5 border-b border-b-neutral-200">
@@ -98,14 +114,32 @@ export default function Note({ href, username, note = null }: { href: string, us
                 </div>
               </div>
               <div className="text-right">
-                <button className="py-3 px-4 text-neutral-600 bg-neutral-100 rounded-[0.5rem]" onClick={() => setOpenDelete(false)}>Cancel</button>
+                <button className="py-3 px-4 text-neutral-600 bg-neutral-100 rounded-[0.5rem]" onClick={() => setDeleteTrigger(false)}>Cancel</button>
                 <button className="py-3 px-4 ml-4 bg-red-500 text-neutral-0 rounded-[0.5rem]" onClick={handleDelete}>Delete Note</button>
               </div>
             </DialogContent>
-          </Dialog>
-
-          <button type="button" className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit hover:cursor-pointer`}><ArchiveSVG /></button>
-          <button type="button" className={`block ${text["preset-5"]} text-neutral-600 bg-inherit hover:cursor-pointer`}>Cancel</button>
+          </Dialog>}
+          {note && <Dialog open={archiveTrigger} onOpenChange={setArchiveTrigger}>
+            <DialogTrigger asChild>
+              <button type="button" onClick={triggerArchive} className={`block text-neutral-600 w-4.5 h-4.5 bg-inherit hover:cursor-pointer`}>{note?.isArchived ? <Image src={restore} alt="" />  : <ArchiveSVG />}</button>
+            </DialogTrigger>
+            <DialogContent className={`p-5 p-b-4`}>
+              <div className="flex items-start gap-4 pb-5 border-b border-b-neutral-200">
+                <span className={`min-h-fit min-w-fit p-2 rounded-[0.5rem] bg-neutral-100`}>
+                  <Image src={archive} alt="" />
+                </span>
+                <div>
+                  <DialogTitle className={`${text["preset-3"]}`}>Archive Note</DialogTitle>
+                  <DialogDescription className={`${text["preset-5"]} mt-1.5 text-neutral-700`}>Are you sure you want to archive this note? You can find it in the Archived Notes section and restore it anytime.</DialogDescription>
+                </div>
+              </div>
+              <div className="text-right">
+                <button className="py-3 px-4 text-neutral-600 bg-neutral-100 rounded-[0.5rem]" onClick={() => setArchiveTrigger(false)}>Cancel</button>
+                <button className="py-3 px-4 ml-4 bg-blue-500 text-neutral-0 rounded-[0.5rem]" onClick={handleArchive}>{note?.isArchived ? "Restore" : "Archive"} Note</button>
+              </div>
+            </DialogContent>
+          </Dialog>}
+          <button type="button" className={`block ${text["preset-5"]} ${!note && "ml-auto"} text-neutral-600 bg-inherit hover:cursor-pointer`}>Cancel</button>
           <button className={`block ${text["preset-5"]} text-blue-500 bg-inherit hover:cursor-pointer`}>Save Note</button>
         </div>
         <input className={`mt-3 ${text["preset-2"]} placeholder:text-neutral-950 w-full focus:outline-none focus:placeholder:text-transparent`} type="text" defaultValue={note?.title} placeholder="Enter a title..." ref={titleRef} />
