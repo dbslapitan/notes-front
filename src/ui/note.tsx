@@ -15,11 +15,13 @@ import { URI } from "@/lib/constants";
 import { revalidate } from "@/lib/server";
 import { redirect, RedirectType } from "next/navigation";
 
-export default function Note({ href, username }: { href: string, username: string }) {
+export default function Note({ href, username, note = null }: { href: string, username: string, note?: INote | null }) {
 
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const quillRef = useRef<null | Quill>(null);
+
+  const tags = note?.tags.join(", ");
 
   const handleSave = async (event: FormEvent) => {
     event.preventDefault();
@@ -42,7 +44,6 @@ export default function Note({ href, username }: { href: string, username: strin
       title
     };
 
-    console.log(newNote);
     const id = await fetch(`${URI}/api/v1/${username}` ,{method: "POST", body: JSON.stringify(newNote), headers: {"Content-Type": "application/json"}}).then(res => res.json());
     await revalidate("/preview");
     redirect(`/${username}?selected=${id}`, RedirectType.replace);
@@ -58,19 +59,19 @@ export default function Note({ href, username }: { href: string, username: strin
           <button className={`block ${text["preset-5"]} text-neutral-600 bg-inherit`}>Cancel</button>
           <button className={`block ${text["preset-5"]} text-blue-500 bg-inherit`}>Save Note</button>
         </div>
-        <input className={`mt-3 ${text["preset-2"]} placeholder:text-neutral-950 w-full focus:outline-none focus:placeholder:text-transparent`} type="text" placeholder="Enter a title..." ref={titleRef} />
+        <input className={`mt-3 ${text["preset-2"]} placeholder:text-neutral-950 w-full focus:outline-none focus:placeholder:text-transparent`} type="text" defaultValue={note?.title} placeholder="Enter a title..." ref={titleRef} />
         <div className={`${text["preset-6"]} flex gap-2 mt-3`}>
           <label htmlFor="tags" className="flex gap-1.5 min-w-[33.53%] text-neutral-700"><span className="w-4 h-4"><TagsSVG /></span>Tags</label>
-          <input type="text" id="tags" className={`grow focus:outline-none placeholder:text-[#99A0AE] focus:placeholder:text-transparent`} placeholder="Add tags separated by commas(e.g. Work, Planning)" ref={tagsRef} />
+          <input type="text" id="tags" className={`grow focus:outline-none placeholder:text-[#99A0AE] focus:placeholder:text-transparent`} defaultValue={tags} placeholder="Add tags separated by commas(e.g. Work, Planning)" ref={tagsRef} />
         </div>
         <div className={`${text["preset-6"]} flex gap-2 mt-3 text-[#99A0AE] pb-3 border-b border-b-neutral-200`}>
           <p className="flex gap-1.5 min-w-[33.53%] text-neutral-700">
             <span className="block w-4 h-4"><Clock /></span>
             Last Edited
           </p>
-          <p>Not yet saved</p>
+          <p>{new Date(note?.lastEdited as Date).toLocaleDateString("en-GB", {day: "numeric", month: "short", year: "numeric"}) || "Not yet saved"}</p>
         </div>
-        <Editor quillRef={quillRef} />
+        <Editor quillRef={quillRef} delta={note?.content} />
       </form>
     </Main>
   );
