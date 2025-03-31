@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/ui/header";
 import Navigation from "@/ui/navigation";
+import Providers from "@/ui/providers";
 
 export const metadata: Metadata = {
   title: "Notes",
@@ -14,11 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="h-full" lang="en">
+    <html className="h-full" lang="en" suppressHydrationWarning>
       <body className="flex flex-col h-full bg-neutral-100 text-neutral-950">
-        <Header />
-        {children}
-      <Navigation />
+        <Providers>
+          <Header />
+          {children}
+          <Navigation />
+        </Providers>
       </body>
     </html>
   );

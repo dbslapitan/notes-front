@@ -11,8 +11,33 @@ import sun from "../../public/icons/icon-sun.svg";
 import moon from "../../public/icons/icon-moon.svg";
 import system from "../../public/icons/icon-system-theme.svg";
 import ScrollWrapper from "./scroll-wrapper";
+import { useTheme } from "next-themes";
+import { useEffect, useRef, useState } from "react";
 
 export default function ColorSettings({ username }: { username: string }) {
+
+  const {theme, setTheme} = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const themeRef = useRef(theme);
+
+  useEffect(() => {
+    if(!mounted){
+      setMounted(true);
+    }
+  }, [mounted]);
+
+  const handleColorChange = (theme: string) => {
+    themeRef.current = theme;
+  };
+
+  const handleSaveTheme = () => {
+    setTheme(themeRef?.current as string);
+  };
+
+  if(!mounted){
+    return <></>
+  }
+
   return (
     <ScrollWrapper bottomId={`#mobile-nav`}>
       <Link href={`/${username}/settings`} className={`${text["preset-4"]} flex items-center`}>
@@ -21,7 +46,7 @@ export default function ColorSettings({ username }: { username: string }) {
       </Link>
       <h2 className={`${text["preset-1"]} mt-3`}>Color Theme</h2>
       <p className={`${text["preset-5"]} mt-2`}>Choose your color theme:</p>
-      <RadioGroup defaultValue={"system"} className="mt-4.25" asChild>
+      <RadioGroup defaultValue={theme} onValueChange={handleColorChange} className="mt-4.25" asChild>
         <ul>
           <li className="flex p-4 rounded-[0.75rem] border items-center gap-4 has-data-[state=checked]:bg-neutral-100">
             <Label htmlFor="light" className={`flex grow items-center`}>
@@ -56,7 +81,7 @@ export default function ColorSettings({ username }: { username: string }) {
         </ul>
       </RadioGroup>
       <div className="mt-8 pb-4 text-right">
-        <Button className={`${text["preset-4"]} bg-blue-500 text-neutral-0`}>
+        <Button className={`${text["preset-4"]} bg-blue-500 text-neutral-0`} onClick={handleSaveTheme}>
           Apply Changes
         </Button>
       </div>
