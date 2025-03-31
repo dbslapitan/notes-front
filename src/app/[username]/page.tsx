@@ -6,7 +6,7 @@ import Home from "@/ui/home";
 import Note from "@/ui/note";
 import Search from "@/ui/search";
 import Tagged from "@/ui/tagged";
-import TagsPage from "@/ui/tags.page";
+import TagsPage from "@/ui/tags-page";
 import { redirect, RedirectType } from "next/navigation";
 
 export default async function Page({ params, searchParams }: { params: Promise<{ username: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
