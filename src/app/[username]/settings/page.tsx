@@ -1,6 +1,7 @@
 import Main from "@/ui/main";
 import Settings from "@/ui/settings";
 import ColorSettings from "@/ui/settings-color";
+import FontSettings from "@/ui/settings-font";
 
 export default async function Page({ params, searchParams }: { params: Promise<{ username: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }){
 
@@ -11,7 +12,7 @@ export default async function Page({ params, searchParams }: { params: Promise<{
     if(searchParam?.selected === "color"){
       return <ColorSettings username={username} />
     } else if (searchParam?.selected === "font"){
-      return <h1>Font</h1>
+      return <FontSettings username={username}/>
     } else {
       return <Settings username={username} />
     }
