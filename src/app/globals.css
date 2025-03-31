@@ -29,6 +29,10 @@
   --shadow-sm: 0px -4px 6px 0px rgba(240, 240, 240, 0.60);
   --shadow-lg: 0px 8px 12px 0px rgba(240, 240, 240, 0.60);
 
+  --font-sans: "Inter", "sans-serif";
+  --font-serif: "Noto Serif", "serif";
+  --font-mono: "Source Code Pro", "sans-serif";
+
 }
 
 :root {

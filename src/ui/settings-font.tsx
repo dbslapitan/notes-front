@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import ScrollWrapper from "./scroll-wrapper";
 import Image from "next/image";
@@ -9,8 +11,23 @@ import carret from "../../public/icons/icon-arrow-left.svg";
 import sans from "../../public/icons/icon-font-sans-serif.svg";
 import serif from "../../public/icons/icon-font-serif.svg";
 import mono from "../../public/icons/icon-font-monospace.svg";
+import { useContext, useRef } from "react";
+import { FontContext } from "./providers";
 
 export default function FontSettings({username}: {username: string}) {
+
+  const {font, setFont} = useContext(FontContext);
+  const fontRef = useRef(font);
+
+  const handleFontChange = (value: "sans" | "serif" | "mono") => {
+    fontRef.current = value;
+  }
+
+  const handleFontSave = () => {
+    localStorage.setItem("font", fontRef.current);
+    setFont(fontRef.current);
+  }
+
   return (
     <ScrollWrapper>
       <Link href={`/${username}/settings`} className={`${text["preset-4"]} flex items-center`}>
@@ -19,7 +36,7 @@ export default function FontSettings({username}: {username: string}) {
       </Link>
       <h2 className={`${text["preset-1"]} mt-3`}>Font Theme</h2>
       <p className={`${text["preset-5"]} mt-2`}>Choose your font theme:</p>
-      <RadioGroup defaultValue={"sans"} className="mt-4.25" asChild>
+      <RadioGroup defaultValue={font} onValueChange={handleFontChange} className="mt-4.25" asChild>
         <ul>
           <li className="flex p-4 rounded-[0.75rem] border items-center gap-4 has-data-[state=checked]:bg-neutral-100">
             <Label htmlFor="sans" className={`flex grow items-center`}>
@@ -54,7 +71,7 @@ export default function FontSettings({username}: {username: string}) {
         </ul>
       </RadioGroup>
       <div className="mt-8 text-right">
-        <Button className={`${text["preset-4"]} bg-blue-500 text-neutral-0`}>
+        <Button className={`${text["preset-4"]} bg-blue-500 text-neutral-0`} onClick={handleFontSave}>
           Apply Changes
         </Button>
       </div>
