@@ -21,7 +21,8 @@ export default async function Page({ params, searchParams }: { params: Promise<{
 
   const component = (() => {
     if (resolvedQuery === "home") {
-      return <Home notes={notes} username={username} />;
+      const newNotes = notes.filter(note => !note.isArchived);
+      return <Home notes={newNotes} username={username} />;
     } else if (resolvedQuery === "archived"){
       const newNote = notes.filter(note => note.isArchived);
       return <Archived notes={newNote} username={username} />;
@@ -34,7 +35,6 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       return <Search notes={newNote} username={username} value={value}/>;
     } else if(resolvedQuery === "tag"){
       const value = query.tag;
-      console.log(value);
       if(!value){
         return <TagsPage username={username} tags={tags}/>
       } else{
@@ -66,7 +66,8 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       return <Note href={href} username={username} note={notes.find(note => note._id === query.selected)} />
     }
     else{
-      return <Home notes={notes} username={username} />;
+      const newNotes = notes.filter(note => !note.isArchived);
+      return <Home notes={newNotes} username={username} />;
     }
   })();
 
