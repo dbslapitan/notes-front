@@ -29,7 +29,7 @@ export default function FontSettings({username}: {username: string}) {
   }
 
   return (
-    <ScrollWrapper>
+    <ScrollWrapper bottomId={`#mobile-nav`}>
       <Link href={`/${username}/settings`} className={`${text["preset-4"]} flex items-center`}>
         <Image src={carret} alt="" width={18} height={18} />
         <span className="relative">Settings</span>

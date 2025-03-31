@@ -10,7 +10,7 @@ import { Suspense } from "react";
 export default function Navigation() {
   return (
     <Suspense>
-      <nav id="mobile-nav" className="shadow-sm dark:shadow-dsm py-3 px-4 md:px-0 border-t border-t-neutral-200 bg-neutral-0 dark:bg-neutral-950">
+      <nav id="mobile-nav" className="shadow-sm dark:shadow-dsm py-3 px-4 md:px-0 border-t border-t-neutral-200 dark:border-t-neutral-800 bg-neutral-0 dark:bg-neutral-950">
       <ul className="flex">
         <li className={`grow md:border-r md:border-neutral-200`}>
           <NavLink href={``} link="home">

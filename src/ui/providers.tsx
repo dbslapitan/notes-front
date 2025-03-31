@@ -8,6 +8,7 @@ export const FontContext = createContext<{ font: "sans" | "serif" | "mono", setF
 export default function Providers({ children }: { children: ReactNode }) {
 
   const [font, setFont] = useState<"sans" | "serif" | "mono">("sans");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const lsFont = localStorage.getItem("font");
@@ -16,7 +17,14 @@ export default function Providers({ children }: { children: ReactNode }) {
       localStorage.setItem("font", currentFont);
       setFont(currentFont);
     }
-  }, [font]);
+    if(!mounted){
+      setMounted(true);
+    }
+  }, [font, mounted]);
+
+  if(!mounted){
+    return<></>
+  }
 
   return (
     <FontContext.Provider value={{font, setFont}}>
